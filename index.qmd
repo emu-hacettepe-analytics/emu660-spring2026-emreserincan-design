@@ -1,9 +1,11 @@
 ---
-title: "Welcome to My Analytics Lab"
+title: ""
 ---
 
-Hello!! My name is xxx xxxx.
+<div class="hero-title">
+From numbers to <span class="gradient-text">narratives</span>
+</div>
 
-This is my personal webpage.
-
-Please stay tuned to follow my works on data analytics, blog posts, and more.
+<div class="hero-sub">
+I transform raw data into meaningful insights through analytics, visualization, and storytelling.
+</div>

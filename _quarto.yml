@@ -3,52 +3,36 @@ project:
   output-dir: docs
 
 website:
-  title: "[Student xxxx]'s Analytics Lab"
+  title: "Emrecan Serin | Analytics Lab"
   navbar:
-    search: true
+    search: false
     left:
       - text: Home
         href: index.qmd
-      - text: About Me
+      - text: About
         href: about.qmd
-      - text: My Posts
-        href: posts.qmd
-      - text: "EMU660 Coursework"
-        menu:
-          - text: Assignments
-            href: assignments.qmd
-          - text: Project
-            href: project.qmd
+      - text: Assignments
+        href: assignments.qmd
+      - text: Project
+        href: project.qmd
             
     tools:
       - icon: github
-        href: https://twitter.com
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/emu-hacettepe-analytics/emu660-spring2026-emreserincan-design
       - icon: linkedin
-        href: https://linkedin.com
+        href: https://www.linkedin.com/in/serinemrecan/
 
-  sidebar:
-    - title: "Assignments"
-      style: "docked"
-      search: true
-      contents:
-        - assignments.qmd
-        - assignments/assignment-1.qmd
-        - assignments/assignment-2.qmd  
   page-navigation: true
   back-to-top-navigation: true
+
   page-footer:
-    center: "Hacettepe IE - EMU660 - Spring 2026" 
-    border: true
+    center: "Emrecan Serin • EMU660 • Spring '26"
+    
 format:
   html:
-    toc: true
-    toc-location: left
-    theme: 
-      light: simplex 
-      dark: cyborg
+    theme: cosmo
     css: styles.css
+    toc: false
 
 
 editor: visual
