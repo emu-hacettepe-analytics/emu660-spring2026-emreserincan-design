@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Emrecan Serin | Analytics Lab",
-    "section": "",
-    "text": "From numbers to narratives\n\n\nI transform raw data into meaningful insights through analytics, visualization, and storytelling.\n\n\n\n\n Back to top"
-  },
-  {
     "objectID": "project.html",
     "href": "project.html",
     "title": "Project X",
@@ -70,6 +63,34 @@
     "text": "3.4 Results\nxxxxxx"
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Emrecan Serin | Analytics Lab",
+    "section": "",
+    "text": "From numbers to narratives\n\n\nI transform raw data into meaningful insights through analytics, visualization, and storytelling.\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "assignments/assignment-2.html",
+    "href": "assignments/assignment-2.html",
+    "title": "Assignment 2",
+    "section": "",
+    "text": "Assignment 2\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "Education\n• 2015-2019 Ankara Ataturk Anatolian High School | Science/Mathematics student\n• 2019-2021 B.S., Electrical and Electronics Engineering, Bilkent (Comprehensive Scholarship: %100 + Stipend)\n• 2021-2025 B.S., Industrial Engineering, Bilkent (Comprehensive Scholarship: %100 + Stipend)\n• 2025-2027 M.S., Industrial Engineering, Hacettepe\n\n\nWork Experience\n• Jun-Sep ’22 British American Tobacco | Spare Parts Department, Production Intern\n• 2023-2025 SIEMENS Grid Software | Assistant Sales Specialist, Remote\n• 2025- ROKETSAN | Supply Chain Engineer\n\n\nExtracurricular Activities\n• Ankara Ataturk Anatolian High School Orchestra (Sep 2016 - Jun 2017) - Orchestra drummer\n• Bilkent IEEE Club (Jan 2020-June 2021) - Team Member and Presenter at the Kariyer Forum’21\n• Bilkent Music Club (Jan 2020-July 2022) - Board Member responsible for campus events\n• Boogie People Band (July 2021 - July 2024) - Drummer at performance halls\n• Baskent Communication Academy (Jan-May 2025) - Voice Over & Dubbing\nDownload CV\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "assignments/assignment-1.html",
+    "href": "assignments/assignment-1.html",
+    "title": "Assignment 1",
+    "section": "",
+    "text": "1 + 1\n\n[1] 2\n\n\nMy first assignment has two parts."
+  },
+  {
     "objectID": "assignments.html",
     "href": "assignments.html",
     "title": "My Assignments",
@@ -77,51 +98,10 @@
     "text": "On this page, I showcase the assignment I conducted for the [term and year, e.g. Spring 2024-2025] EMU660 Decision Making with Analytics course.\nPlease use left menu to navigate through my assignments.\n\n\n\n Back to top"
   },
   {
-    "objectID": "about.html#employements",
-    "href": "about.html#employements",
-    "title": "About Me",
-    "section": "Employements",
-    "text": "Employements\n\nFirm xxx, position xx, year xxx\nFirm yyy, position yyy, year yyy"
-  },
-  {
-    "objectID": "about.html#internships",
-    "href": "about.html#internships",
-    "title": "About Me",
-    "section": "Internships",
-    "text": "Internships\n\nFirm aaa, position xx, year xxx\nFirm bbb, position yyy, year yyy"
-  },
-  {
     "objectID": "posts.html",
     "href": "posts.html",
     "title": "My Blog",
     "section": "",
     "text": "This page is under construction.\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "docs/assignments/assignment-1.html",
-    "href": "docs/assignments/assignment-1.html",
-    "title": "Assignment 1",
-    "section": "",
-    "text": "1 + 1\n\n[1] 2\n\n\nMy first assignment has two parts."
-  },
-  {
-    "objectID": "assignments/assignment-1.html",
-    "href": "assignments/assignment-1.html",
-    "title": "Assignment 1",
-    "section": "",
-    "text": "1 + 1\n\n[1] 2\n\n\nMy first assignment has two parts.",
-    "crumbs": [
-      "Assignment 1"
-    ]
-  },
-  {
-    "objectID": "assignments/assignment-2.html",
-    "href": "assignments/assignment-2.html",
-    "title": "Assignment 2",
-    "section": "",
-    "text": "Assignment 2\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n Back to top",
-    "crumbs": [
-      "Assignment 2"
-    ]
   }
 ]

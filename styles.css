@@ -136,3 +136,17 @@ footer {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.btn-custom {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-custom:hover {
+  opacity: 0.9;
+}
