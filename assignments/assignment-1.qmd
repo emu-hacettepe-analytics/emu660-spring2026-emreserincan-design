@@ -2,14 +2,30 @@
 title: "Assignment 1"
 ---
 
-# Assignment 1
-
-```{r}
-1 + 1
-```
-
-My first assignment has two parts.
-
 ## (a)
 
+In this video (Veri Bilimi ve Endüstri Mühendisliği Üzerine Sohbetler - Mustafa Baydoğan & Erdi Daşdemir), main topic is about how data science intersects with industrial engineering. While watching it, I noticed something: data science is not a single profession as we often think. It actually includes different roles, and everyone does different things, but ultimately they all try to use data to make decisions. This is where industrial engineering comes into play. Someone studying this field is already familiar with concepts such as decision-making, optimization, and systems thinking. So transitioning into data science is not really like starting from scratch; it is more like applying what you already know to a different field.
+
+One of the most emphasized points in the video is the difference between school and real life. At school, we usually work with clean data, but in real life data is not that organized. In fact, most of the time the data is incomplete, incorrect, or messy. Because of this, a large part of the work is spent cleaning and fixing the data before doing any analysis.
+
+Another important point is that knowing Python or R alone is not enough. Technical knowledge is important, but it is not sufficient by itself. What really makes a difference is understanding the problem correctly and asking the right questions. Because even a correct result may be useless if the question behind it is wrong.
+
+In our last class we also did something similar: we acknowledged that these techniques exist, but we did not go into the technical details. Instead, we focused on questions like what can be understood from this graph, how the data can be interpreted, and what the possible reasons behind edge cases might be.
+
+Overall, the video gives the impression that data science is a process of exploration. There is no single correct path, and everyone finds their own path over time. Continuous learning is necessary.
+
 ## (b)
+
+What is the importance of domain knowledge in data science?
+
+“Domain knowledge helps in correctly understanding the problem and interpreting the results properly. Analyses performed without domain knowledge may be technically correct but can still lead to incorrect conclusions.”
+
+According to the video, which of the following is the most important skill in data science?
+
+A) Being able to write complex code
+B) Memorizing algorithms
+C) Understanding the problem correctly and asking the right questions (Correct)
+D) Using the newest tools
+
+## (c)
+

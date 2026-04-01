@@ -150,3 +150,53 @@ footer {
 .btn-custom:hover {
   opacity: 0.9;
 }
+
+/* Assignment container */
+.assignment-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+/* Kart */
+.assignment-card {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+}
+
+/* Hover efekti */
+.assignment-card:hover {
+  transform: translateY(-5px);
+  border: 1px solid #a855f7;
+}
+
+/* Kart başlık */
+.assignment-card h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Kart yazı */
+.assignment-card p {
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* Button */
+.btn-custom {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-custom:hover {
+  opacity: 0.9;
+}

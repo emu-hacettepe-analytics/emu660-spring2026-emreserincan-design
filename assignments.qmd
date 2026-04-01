@@ -2,6 +2,18 @@
 title: "My Assignments"
 ---
 
-On this page, I showcase the assignment I conducted for the \[term and year, e.g. Spring 2024-2025\] EMU660 Decision Making with Analytics course.
+Here you can explore my coursework for EMU660.
 
-Please use left menu to navigate through my assignments.
+::::: assignment-container
+::: assignment-card
+<h2>Assignment 1</h2>
+
+<a href="assignments/assignment-1.html" class="btn-custom">View Assignment</a>
+:::
+
+::: assignment-card
+<h2>Assignment 2</h2>
+
+<a href="assignments/assignment-2.html" class="btn-custom">View Assignment</a>
+:::
+:::::
