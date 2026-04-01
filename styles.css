@@ -200,3 +200,15 @@ footer {
 .btn-custom:hover {
   opacity: 0.9;
 }
+
+pre {
+  background-color: #111827;
+  color: #e5e7eb;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+code {
+  color: #c084fc;
+}

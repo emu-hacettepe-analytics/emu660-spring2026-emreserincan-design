@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -162,6 +197,478 @@ ul.task-list li input[type="checkbox"] {
 <li>Understanding the problem correctly and asking the right questions (Correct)</li>
 <li>Using the newest tools</li>
 </ol>
+</section>
+<section id="c-statistical-summaries-with-custom-functions-and-iteration-methods" class="level2">
+<h2 class="anchored" data-anchor-id="c-statistical-summaries-with-custom-functions-and-iteration-methods">(c) Statistical Summaries with Custom Functions and Iteration Methods</h2>
+<p>In this section, I use the built-in mtcars dataset in R to compute summary statistics for each numerical column. I first define a custom summary function called compute_stats, then apply it using a for loop, sapply, and apply.</p>
+<section id="custom-summary-function" class="level3">
+<h3 class="anchored" data-anchor-id="custom-summary-function">Custom Summary Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>compute_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(x),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">variance =</span> <span class="fu">var</span>(x),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR =</span> <span class="fu">IQR</span>(x),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">minimum =</span> <span class="fu">min</span>(x),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">maximum =</span> <span class="fu">max</span>(x)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="testing-the-function-on-one-column" class="level3">
+<h3 class="anchored" data-anchor-id="testing-the-function-on-one-column">Testing the Function on One Column</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_stats</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      mean median variance   IQR minimum maximum
+1 20.09062   19.2  36.3241 7.375    10.4    33.9</code></pre>
+</div>
+</div>
+</section>
+<section id="applying-the-function-using-a-loop" class="level3">
+<h3 class="anchored" data-anchor-id="applying-the-function-using-a-loop">Applying the Function Using a Loop</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col_name <span class="cf">in</span> <span class="fu">names</span>(mtcars)) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">----------------------</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Column:"</span>, col_name, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"----------------------</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">compute_stats</span>(mtcars[[col_name]]))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+----------------------
+Column: mpg 
+----------------------
+      mean median variance   IQR minimum maximum
+1 20.09062   19.2  36.3241 7.375    10.4    33.9
+
+----------------------
+Column: cyl 
+----------------------
+    mean median variance IQR minimum maximum
+1 6.1875      6 3.189516   4       4       8
+
+----------------------
+Column: disp 
+----------------------
+      mean median variance     IQR minimum maximum
+1 230.7219  196.3  15360.8 205.175    71.1     472
+
+----------------------
+Column: hp 
+----------------------
+      mean median variance  IQR minimum maximum
+1 146.6875    123 4700.867 83.5      52     335
+
+----------------------
+Column: drat 
+----------------------
+      mean median  variance  IQR minimum maximum
+1 3.596563  3.695 0.2858814 0.84    2.76    4.93
+
+----------------------
+Column: wt 
+----------------------
+     mean median variance     IQR minimum maximum
+1 3.21725  3.325 0.957379 1.02875   1.513   5.424
+
+----------------------
+Column: qsec 
+----------------------
+      mean median variance    IQR minimum maximum
+1 17.84875  17.71 3.193166 2.0075    14.5    22.9
+
+----------------------
+Column: vs 
+----------------------
+    mean median  variance IQR minimum maximum
+1 0.4375      0 0.2540323   1       0       1
+
+----------------------
+Column: am 
+----------------------
+     mean median  variance IQR minimum maximum
+1 0.40625      0 0.2489919   1       0       1
+
+----------------------
+Column: gear 
+----------------------
+    mean median  variance IQR minimum maximum
+1 3.6875      4 0.5443548   1       3       5
+
+----------------------
+Column: carb 
+----------------------
+    mean median variance IQR minimum maximum
+1 2.8125      2 2.608871   2       1       8</code></pre>
+</div>
+</div>
+</section>
+<section id="using-sapply" class="level3">
+<h3 class="anchored" data-anchor-id="using-sapply">Using sapply</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(mtcars, compute_stats)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         mpg      cyl      disp     hp       drat      wt       qsec    
+mean     20.09062 6.1875   230.7219 146.6875 3.596563  3.21725  17.84875
+median   19.2     6        196.3    123      3.695     3.325    17.71   
+variance 36.3241  3.189516 15360.8  4700.867 0.2858814 0.957379 3.193166
+IQR      7.375    4        205.175  83.5     0.84      1.02875  2.0075  
+minimum  10.4     4        71.1     52       2.76      1.513    14.5    
+maximum  33.9     8        472      335      4.93      5.424    22.9    
+         vs        am        gear      carb    
+mean     0.4375    0.40625   3.6875    2.8125  
+median   0         0         4         2       
+variance 0.2540323 0.2489919 0.5443548 2.608871
+IQR      1         1         1         2       
+minimum  0         0         3         1       
+maximum  1         1         5         8       </code></pre>
+</div>
+</div>
+</section>
+<section id="using-apply" class="level3">
+<h3 class="anchored" data-anchor-id="using-apply">Using apply</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>apply_results <span class="ot">&lt;-</span> <span class="fu">apply</span>(mtcars, <span class="dv">2</span>, compute_stats)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>apply_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mpg
+      mean median variance   IQR minimum maximum
+1 20.09062   19.2  36.3241 7.375    10.4    33.9
+
+$cyl
+    mean median variance IQR minimum maximum
+1 6.1875      6 3.189516   4       4       8
+
+$disp
+      mean median variance     IQR minimum maximum
+1 230.7219  196.3  15360.8 205.175    71.1     472
+
+$hp
+      mean median variance  IQR minimum maximum
+1 146.6875    123 4700.867 83.5      52     335
+
+$drat
+      mean median  variance  IQR minimum maximum
+1 3.596563  3.695 0.2858814 0.84    2.76    4.93
+
+$wt
+     mean median variance     IQR minimum maximum
+1 3.21725  3.325 0.957379 1.02875   1.513   5.424
+
+$qsec
+      mean median variance    IQR minimum maximum
+1 17.84875  17.71 3.193166 2.0075    14.5    22.9
+
+$vs
+    mean median  variance IQR minimum maximum
+1 0.4375      0 0.2540323   1       0       1
+
+$am
+     mean median  variance IQR minimum maximum
+1 0.40625      0 0.2489919   1       0       1
+
+$gear
+    mean median  variance IQR minimum maximum
+1 3.6875      4 0.5443548   1       3       5
+
+$carb
+    mean median variance IQR minimum maximum
+1 2.8125      2 2.608871   2       1       8</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="d-data-import-missing-value-analysis-and-replacement" class="level2">
+<h2 class="anchored" data-anchor-id="d-data-import-missing-value-analysis-and-replacement">(d) Data Import, Missing Value Analysis, and Replacement</h2>
+<section id="load-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-dataset">Load the Dataset</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"polls_us_election_2016"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="define-personal-variables" class="level3">
+<h3 class="anchored" data-anchor-id="define-personal-variables">Define Personal Variables</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my_first <span class="ot">&lt;-</span> <span class="st">"Emrecan"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>my_birth_year <span class="ot">&lt;-</span> <span class="dv">2001</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="compute-the-value-of-k" class="level3">
+<h3 class="anchored" data-anchor-id="compute-the-value-of-k">Compute the Value of k</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> (<span class="fu">nchar</span>(my_first) <span class="sc">+</span> my_birth_year) <span class="sc">%%</span> <span class="dv">15</span> <span class="sc">+</span> <span class="dv">8</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21</code></pre>
+</div>
+</div>
+</section>
+<section id="display-k-rows-from-the-original-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="display-k-rows-from-the-original-dataset">Display k Rows from the Original Dataset</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (k <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(polls_us_election_2016, k)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(polls_us_election_2016, k)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              state  startdate    enddate                pollster grade
+4188 South Carolina 2016-09-23 2016-10-06                   Ipsos    A-
+4189           Utah 2016-10-25 2016-10-31 Google Consumer Surveys     B
+4190  New Hampshire 2016-01-04 2016-01-06   Public Policy Polling    B+
+4191        Florida 2016-06-08 2016-06-19   Quinnipiac University    A-
+4192           Ohio 2016-06-08 2016-06-19   Quinnipiac University    A-
+4193       New York 2016-02-28 2016-03-03           Siena College     A
+4194 North Carolina 2016-09-27 2016-10-02   Quinnipiac University    A-
+4195 North Carolina 2016-02-14 2016-02-16               SurveyUSA     A
+4196 North Carolina 2016-05-20 2016-05-22   Public Policy Polling    B+
+4197       Kentucky 2016-09-30 2016-10-13                   Ipsos    A-
+4198        Florida 2016-07-30 2016-08-07   Quinnipiac University    A-
+4199   Pennsylvania 2016-06-08 2016-06-19   Quinnipiac University    A-
+4200           Ohio 2016-06-30 2016-07-11   Quinnipiac University    A-
+4201 North Carolina 2016-03-18 2016-03-20   Public Policy Polling    B+
+4202   South Dakota 2016-10-28 2016-11-02                   Ipsos    A-
+4203     Washington 2016-10-21 2016-11-02                   Ipsos    A-
+4204       Virginia 2016-09-16 2016-09-22                   Ipsos    A-
+4205      Wisconsin 2016-08-04 2016-08-07    Marquette University     A
+4206           Utah 2016-11-01 2016-11-07 Google Consumer Surveys     B
+4207         Oregon 2016-10-21 2016-11-02                   Ipsos    A-
+4208       Michigan 2016-01-23 2016-01-26                EPIC-MRA    A-
+     samplesize population rawpoll_clinton rawpoll_trump rawpoll_johnson
+4188        258         lv           46.67         48.25              NA
+4189        245         lv           28.18         29.39            8.40
+4190       1036          v           50.00         36.00              NA
+4191        975         rv           42.00         36.00            7.00
+4192        971         rv           38.00         36.00            8.00
+4193        800         rv           57.00         34.00              NA
+4194        507         lv           46.00         43.00            7.00
+4195       1250         lv           43.00         45.00              NA
+4196        928          v           41.00         43.00            3.00
+4197        336         lv           39.38         53.08              NA
+4198       1056         lv           43.00         43.00            7.00
+4199        950         rv           39.00         36.00            9.00
+4200        955         rv           36.00         37.00            7.00
+4201        843          v           44.00         42.00              NA
+4202        170         lv           28.45         47.20              NA
+4203        538         lv           46.71         38.33              NA
+4204        452         lv           46.54         40.04              NA
+4205        683         lv           47.00         34.00            9.00
+4206        286         lv           21.33         35.05            9.99
+4207        446         lv           46.46         37.41              NA
+4208        600         lv           43.00         41.00              NA
+     rawpoll_mcmullin adjpoll_clinton adjpoll_trump adjpoll_johnson
+4188               NA        46.20387      49.13322              NA
+4189               NA        33.61454      36.01090        7.458243
+4190               NA        47.81869      35.91267              NA
+4191               NA        46.44439      41.33270        2.791570
+4192               NA        42.46502      41.36491        3.791570
+4193               NA        56.98850      38.83402              NA
+4194               NA        47.79437      44.86935        4.022323
+4195               NA        39.90517      44.40152              NA
+4196               NA        43.28262      47.12021       -0.036293
+4197               NA        38.34430      54.36357              NA
+4198               NA        45.19351      46.65680        3.448447
+4199               NA        43.35339      41.19061        4.791570
+4200               NA        40.73937      42.33380        2.936299
+4201               NA        42.13165      43.55006              NA
+4202               NA        26.57791      45.43384              NA
+4203               NA        45.56387      38.22545              NA
+4204               NA        46.47852      40.48017              NA
+4205               NA        48.74781      39.07778        4.705020
+4206               NA        26.65200      40.57738        9.705791
+4207               NA        45.12949      37.10720              NA
+4208               NA        42.14966      42.05508              NA
+     adjpoll_mcmullin
+4188               NA
+4189               NA
+4190               NA
+4191               NA
+4192               NA
+4193               NA
+4194               NA
+4195               NA
+4196               NA
+4197               NA
+4198               NA
+4199               NA
+4200               NA
+4201               NA
+4202               NA
+4203               NA
+4204               NA
+4205               NA
+4206               NA
+4207               NA
+4208               NA</code></pre>
+</div>
+</div>
+</section>
+<section id="total-number-of-na-values-in-the-original-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="total-number-of-na-values-in-the-original-dataset">Total Number of NA Values in the Original Dataset</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(polls_us_election_2016))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11604</code></pre>
+</div>
+</div>
+</section>
+<section id="number-of-na-values-per-column-top-8" class="level3">
+<h3 class="anchored" data-anchor-id="number-of-na-values-per-column-top-8">Number of NA Values per Column (Top 8)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>na_per_column <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(polls_us_election_2016)), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(na_per_column, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rawpoll_mcmullin adjpoll_mcmullin  rawpoll_johnson  adjpoll_johnson 
+            4178             4178             1409             1409 
+           grade       samplesize            state        startdate 
+             429                1                0                0 </code></pre>
+</div>
+</div>
+</section>
+<section id="replace-na-values-and-store-the-result-in-a-new-object" class="level3">
+<h3 class="anchored" data-anchor-id="replace-na-values-and-store-the-result-in-a-new-object">Replace NA Values and Store the Result in a New Object</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> polls_us_election_2016</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col_name <span class="cf">in</span> <span class="fu">names</span>(new_data)) {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.numeric</span>(new_data[[col_name]])) {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    new_data[[col_name]][<span class="fu">is.na</span>(new_data[[col_name]])] <span class="ot">&lt;-</span> my_birth_year <span class="sc">+</span> k</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.character</span>(new_data[[col_name]])) {</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    new_data[[col_name]][<span class="fu">is.na</span>(new_data[[col_name]])] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(my_first, <span class="st">"_"</span>, k)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.factor</span>(new_data[[col_name]])) {</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    new_data[[col_name]] <span class="ot">&lt;-</span> <span class="fu">as.character</span>(new_data[[col_name]])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    new_data[[col_name]][<span class="fu">is.na</span>(new_data[[col_name]])] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(my_first, <span class="st">"_"</span>, k)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="display-k-rows-from-the-new-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="display-k-rows-from-the-new-data-frame">Display k Rows from the New Data Frame</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (k <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(new_data, k)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(new_data, k)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              state  startdate    enddate                pollster grade
+4188 South Carolina 2016-09-23 2016-10-06                   Ipsos    A-
+4189           Utah 2016-10-25 2016-10-31 Google Consumer Surveys     B
+4190  New Hampshire 2016-01-04 2016-01-06   Public Policy Polling    B+
+4191        Florida 2016-06-08 2016-06-19   Quinnipiac University    A-
+4192           Ohio 2016-06-08 2016-06-19   Quinnipiac University    A-
+4193       New York 2016-02-28 2016-03-03           Siena College     A
+4194 North Carolina 2016-09-27 2016-10-02   Quinnipiac University    A-
+4195 North Carolina 2016-02-14 2016-02-16               SurveyUSA     A
+4196 North Carolina 2016-05-20 2016-05-22   Public Policy Polling    B+
+4197       Kentucky 2016-09-30 2016-10-13                   Ipsos    A-
+4198        Florida 2016-07-30 2016-08-07   Quinnipiac University    A-
+4199   Pennsylvania 2016-06-08 2016-06-19   Quinnipiac University    A-
+4200           Ohio 2016-06-30 2016-07-11   Quinnipiac University    A-
+4201 North Carolina 2016-03-18 2016-03-20   Public Policy Polling    B+
+4202   South Dakota 2016-10-28 2016-11-02                   Ipsos    A-
+4203     Washington 2016-10-21 2016-11-02                   Ipsos    A-
+4204       Virginia 2016-09-16 2016-09-22                   Ipsos    A-
+4205      Wisconsin 2016-08-04 2016-08-07    Marquette University     A
+4206           Utah 2016-11-01 2016-11-07 Google Consumer Surveys     B
+4207         Oregon 2016-10-21 2016-11-02                   Ipsos    A-
+4208       Michigan 2016-01-23 2016-01-26                EPIC-MRA    A-
+     samplesize population rawpoll_clinton rawpoll_trump rawpoll_johnson
+4188        258         lv           46.67         48.25         2022.00
+4189        245         lv           28.18         29.39            8.40
+4190       1036          v           50.00         36.00         2022.00
+4191        975         rv           42.00         36.00            7.00
+4192        971         rv           38.00         36.00            8.00
+4193        800         rv           57.00         34.00         2022.00
+4194        507         lv           46.00         43.00            7.00
+4195       1250         lv           43.00         45.00         2022.00
+4196        928          v           41.00         43.00            3.00
+4197        336         lv           39.38         53.08         2022.00
+4198       1056         lv           43.00         43.00            7.00
+4199        950         rv           39.00         36.00            9.00
+4200        955         rv           36.00         37.00            7.00
+4201        843          v           44.00         42.00         2022.00
+4202        170         lv           28.45         47.20         2022.00
+4203        538         lv           46.71         38.33         2022.00
+4204        452         lv           46.54         40.04         2022.00
+4205        683         lv           47.00         34.00            9.00
+4206        286         lv           21.33         35.05            9.99
+4207        446         lv           46.46         37.41         2022.00
+4208        600         lv           43.00         41.00         2022.00
+     rawpoll_mcmullin adjpoll_clinton adjpoll_trump adjpoll_johnson
+4188             2022        46.20387      49.13322     2022.000000
+4189             2022        33.61454      36.01090        7.458243
+4190             2022        47.81869      35.91267     2022.000000
+4191             2022        46.44439      41.33270        2.791570
+4192             2022        42.46502      41.36491        3.791570
+4193             2022        56.98850      38.83402     2022.000000
+4194             2022        47.79437      44.86935        4.022323
+4195             2022        39.90517      44.40152     2022.000000
+4196             2022        43.28262      47.12021       -0.036293
+4197             2022        38.34430      54.36357     2022.000000
+4198             2022        45.19351      46.65680        3.448447
+4199             2022        43.35339      41.19061        4.791570
+4200             2022        40.73937      42.33380        2.936299
+4201             2022        42.13165      43.55006     2022.000000
+4202             2022        26.57791      45.43384     2022.000000
+4203             2022        45.56387      38.22545     2022.000000
+4204             2022        46.47852      40.48017     2022.000000
+4205             2022        48.74781      39.07778        4.705020
+4206             2022        26.65200      40.57738        9.705791
+4207             2022        45.12949      37.10720     2022.000000
+4208             2022        42.14966      42.05508     2022.000000
+     adjpoll_mcmullin
+4188             2022
+4189             2022
+4190             2022
+4191             2022
+4192             2022
+4193             2022
+4194             2022
+4195             2022
+4196             2022
+4197             2022
+4198             2022
+4199             2022
+4200             2022
+4201             2022
+4202             2022
+4203             2022
+4204             2022
+4205             2022
+4206             2022
+4207             2022
+4208             2022</code></pre>
+</div>
+</div>
+</section>
+<section id="total-number-of-remaining-na-values-in-the-new-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="total-number-of-remaining-na-values-in-the-new-data-frame">Total Number of Remaining NA Values in the New Data Frame</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(new_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</section>
+<section id="check-whether-any-na-values-still-exist" class="level3">
+<h3 class="anchored" data-anchor-id="check-whether-any-na-values-still-exist">Check Whether Any NA Values Still Exist</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(new_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="e" class="level2">
+<h2 class="anchored" data-anchor-id="e">(e)</h2>
+<p>I completed this assignment by chatting with ChatGPT, and you can find the entire conversation—from start to finish—both during the creation of the first assignment and while designing the website’s layout at this link:</p>
+<p>https://chatgpt.com/share/69ccaf3f-7958-838e-ac3d-088681cf8eb8</p>
+<p>please do not judge : /</p>
 
 
 </section>

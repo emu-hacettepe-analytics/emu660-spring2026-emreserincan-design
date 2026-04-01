@@ -27,5 +27,145 @@ B) Memorizing algorithms
 C) Understanding the problem correctly and asking the right questions (Correct)
 D) Using the newest tools
 
-## (c)
 
+## (c) Statistical Summaries with Custom Functions and Iteration Methods
+
+In this section, I use the built-in mtcars dataset in R to compute summary statistics for each numerical column. I first define a custom summary function called compute_stats, then apply it using a for loop, sapply, and apply.
+
+### Custom Summary Function
+
+```{r}
+compute_stats <- function(x) {
+  data.frame(
+    mean = mean(x),
+    median = median(x),
+    variance = var(x),
+    IQR = IQR(x),
+    minimum = min(x),
+    maximum = max(x)
+  )
+}
+```
+
+### Testing the Function on One Column
+
+```{r}
+compute_stats(mtcars$mpg)
+```
+
+### Applying the Function Using a Loop
+
+```{r}
+for (col_name in names(mtcars)) {
+  cat("\n----------------------\n")
+  cat("Column:", col_name, "\n")
+  cat("----------------------\n")
+  print(compute_stats(mtcars[[col_name]]))
+}
+```
+
+### Using sapply
+
+```{r}
+sapply(mtcars, compute_stats)
+```
+
+### Using apply
+
+```{r}
+apply_results <- apply(mtcars, 2, compute_stats)
+apply_results
+```
+
+## (d) Data Import, Missing Value Analysis, and Replacement
+
+### Load the Dataset
+
+```{r}
+library(dslabs)
+data("polls_us_election_2016")
+```
+
+### Define Personal Variables
+
+```{r}
+my_first <- "Emrecan"
+my_birth_year <- 2001
+```
+
+### Compute the Value of k
+
+```{r}
+k <- (nchar(my_first) + my_birth_year) %% 15 + 8
+k
+```
+
+### Display k Rows from the Original Dataset
+
+```{r}
+if (k %% 2 == 0) {
+  head(polls_us_election_2016, k)
+} else {
+  tail(polls_us_election_2016, k)
+}
+```
+
+### Total Number of NA Values in the Original Dataset
+
+```{r}
+sum(is.na(polls_us_election_2016))
+```
+
+### Number of NA Values per Column (Top 8)
+
+```{r}
+na_per_column <- sort(colSums(is.na(polls_us_election_2016)), decreasing = TRUE)
+head(na_per_column, 8)
+```
+
+### Replace NA Values and Store the Result in a New Object
+
+```{r}
+new_data <- polls_us_election_2016
+
+for (col_name in names(new_data)) {
+  if (is.numeric(new_data[[col_name]])) {
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- my_birth_year + k
+  } else if (is.character(new_data[[col_name]])) {
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- paste0(my_first, "_", k)
+  } else if (is.factor(new_data[[col_name]])) {
+    new_data[[col_name]] <- as.character(new_data[[col_name]])
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- paste0(my_first, "_", k)
+  }
+}
+```
+
+### Display k Rows from the New Data Frame
+
+```{r}
+if (k %% 2 == 0) {
+  head(new_data, k)
+} else {
+  tail(new_data, k)
+}
+```
+
+### Total Number of Remaining NA Values in the New Data Frame
+
+```{r}
+sum(is.na(new_data))
+```
+
+### Check Whether Any NA Values Still Exist
+
+```{r}
+anyNA(new_data)
+```
+
+## (e) 
+
+I completed this assignment by chatting with ChatGPT, and you can find the entire conversation—from start to finish—both during the creation of the first assignment and while designing the website’s layout at this link: 
+
+https://chatgpt.com/share/69ccaf3f-7958-838e-ac3d-088681cf8eb8
+
+please do not judge : /
