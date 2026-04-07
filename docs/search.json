@@ -1,66 +1,59 @@
 [
   {
-    "objectID": "project.html",
-    "href": "project.html",
-    "title": "Project X",
-    "section": "",
-    "text": "Welcome to my/our project page.\nKeep an eye on this space to stay updated with my project activities.\n(The titles below are provided as examples; please feel free to adjust them as necessary.)"
-  },
-  {
     "objectID": "project.html#data-source",
     "href": "project.html#data-source",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "2.1 Data Source",
-    "text": "2.1 Data Source\nxxxxxx"
+    "text": "2.1 Data Source\nThe datasets used in this project are collected from two primary sources:\n\nTransfermarkt: Used to obtain financial and squad-related information such as total squad value, average player value, average age, squad size, and number of foreign players.\nTürkiye Futbol Federasyonu: Used to collect official league performance statistics such as points, wins, draws, losses, goals scored, goals conceded, and league rankings.\n\nThe data has been collected through web scraping techniques and manually verified for consistency. The python script used can be downloaded here"
   },
   {
     "objectID": "project.html#general-information-about-data",
     "href": "project.html#general-information-about-data",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "2.2 General Information About Data",
-    "text": "2.2 General Information About Data\nxxxxxx"
+    "text": "2.2 General Information About Data\nThe project utilizes two main datasets covering a 20-season period from 2004–2005 to 2024–2025.\n\nDataset 1: Financial and Squad Data (superlig_kadro_verileri)\n\nThis dataset contains team-level financial and structural information for each season:\nTakim (Team name) Sezon (Season) Kadro_Sayisi (Squad size) Ortalama_Yas (Average age) Yabanci_Oyuncu_Sayisi (Number of foreign players) Ortalama_Piyasa_Degeri_Euro (Average player market value) Toplam_Piyasa_Degeri_Euro (Total squad market value)\n\nDataset 2: League Performance Data (superlig_puan_durumu_verileri)\n\nThis dataset contains performance-related statistics for each team-season:\nTakim (Team name) Sezon (Season) Galibiyet (Wins) Beraberlik (Draws) Maglubiyet (Losses) Atilan_Gol (Goals scored) Yenilen_Gol (Goals conceded) Averaj (Goal difference) Puan (Total points)"
   },
   {
     "objectID": "project.html#reason-of-choice",
     "href": "project.html#reason-of-choice",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "2.3 Reason of Choice",
-    "text": "2.3 Reason of Choice\nxxxxxx"
+    "text": "2.3 Reason of Choice\nThe choice of this dataset is motivated by several factors:\n\nRelevance to Türkiye: The dataset focuses on the Turkish Super League, aligning with the course recommendation to use locally relevant data.\nRichness and size: The dataset spans 20 seasons and includes multiple variables, making it suitable for in-depth analysis.\nReal-world applicability: The relationship between financial investment and performance is a widely discussed topic in sports economics.\nAvailability of multiple dimensions: The dataset allows for combining financial, demographic, and performance variables.\nLongitudinal analysis opportunity: The availability of long-term data enables trend analysis and structural comparisons across years.\n\nThis combination makes the dataset highly suitable for both exploratory and advanced analytical techniques."
   },
   {
     "objectID": "project.html#preprocessing",
     "href": "project.html#preprocessing",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "2.4 Preprocessing",
-    "text": "2.4 Preprocessing\nxxxxxx"
+    "text": "2.4 Preprocessing\nThe datasets are stored as .csv files and imported into R. You can download the current version of the dataset in R format here."
   },
   {
     "objectID": "project.html#exploratory-data-analysis",
     "href": "project.html#exploratory-data-analysis",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "3.1 Exploratory Data Analysis",
     "text": "3.1 Exploratory Data Analysis\nxxxxxx"
   },
   {
     "objectID": "project.html#trend-analysis",
     "href": "project.html#trend-analysis",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "3.2 Trend Analysis",
     "text": "3.2 Trend Analysis\nxxxxxx"
   },
   {
     "objectID": "project.html#model-fitting",
     "href": "project.html#model-fitting",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "3.3 Model Fitting",
     "text": "3.3 Model Fitting\nxxxxxx"
   },
   {
     "objectID": "project.html#results",
     "href": "project.html#results",
-    "title": "Project X",
+    "title": "Financial Power vs Sporting Success: A 20-Year Analysis of the Turkish Super League",
     "section": "3.4 Results",
-    "text": "3.4 Results\nxxxxxx"
+    "text": "3.4 Results\nxxxxxx superlig_kadro_verileri &lt;- read.csv(“data/superlig_kadro_verileri.csv”) superlig_puan_durumu_verileri &lt;- read.csv(“data/superlig_puan_durumu_verileri.csv”) save(superlig_kadro_verileri, superlig_puan_durumu_verileri, file = “data/my_data.RData”) # 4. Results and Key Takeaways\nxxxxxx"
   },
   {
     "objectID": "index.html",
