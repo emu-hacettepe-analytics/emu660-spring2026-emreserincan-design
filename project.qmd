@@ -13,6 +13,8 @@ More specifically, the project will address the following questions:
 
 By combining financial and performance datasets, this project aims to provide both descriptive and analytical insights into the efficiency and competitiveness of clubs in the Turkish football ecosystem.
 
+**During the project, generative AI tools such as Google Gemini or ChatGPT are utilized.**
+
 # 2. Data
 
 ## 2.1 Data Source
@@ -30,11 +32,11 @@ The script is created thanks to Gemini 3.1 GenAI tool. You can refer to prompts 
 
 The project utilizes two main datasets covering a 20-season period from 2004–2005 to 2024–2025.
 
--   Dataset 1: Financial and Squad Data (superlig_kadro_verileri)
+-   Dataset 1: Financial and Squad Data ([superlig_kadro_verileri](superlig_kadro_verileri.csv))
 
 This dataset contains team-level financial and structural information for each season.
 
--   Dataset 2: League Performance Data (superlig_puan_durumu_verileri)
+-   Dataset 2: League Performance Data ([superlig_puan_durumu_verileri](superlig_puan_durumu_verileri.csv))
 
 This dataset contains performance-related statistics for each team-season.
 
@@ -59,7 +61,6 @@ This combination makes the dataset highly suitable for both exploratory and adva
 library(dplyr)
 library(readr)
 
-# CSV'yi oku
 superlig_kadro_verileri <- read_csv("superlig_kadro_verileri.csv")
 
 # Kadro_Verileri isimleri -> Puan_Durumu isimleri
@@ -130,10 +131,9 @@ superlig_kadro_verileri <- superlig_kadro_verileri %>%
     Takim = recode(Takim, !!!takim_map)
   )
 
-# Kontrol: mapping dışında kalan takım var mı?
+# Kontrol -> mapping dışında kalan takım var mı?
 setdiff(unique(superlig_kadro_verileri$Takim), unname(takim_map))
 
-# Güncellenmiş CSV olarak kaydet
 write_csv(
   superlig_kadro_verileri,
   "superlig_kadro_verileri_mapped.csv"
@@ -156,9 +156,9 @@ In this project, multiple analyses will be conducted to investigate the relation
 
 The planned analyses are as follows:
 
--   **Distribution Analysis:** The distribution of squad values and performance indicators will be analyzed to understand overall league structure.
 -   **Correlation Analysis:** The relationship between total squad market value and total points will be examined to understand whether financially stronger teams perform better.
 -   **Efficiency Analysis:** Clubs will be evaluated based on how efficiently they convert financial resources into points.
+-   **Distribution Analysis:** The distribution of squad values and performance indicators will be analyzed to understand overall league structure.
 -   **Longitudinal Analysis (20-Year Club Evolution):** The squad value and performance evolution of clubs over the past 20 years will be analyzed. This includes examining trends in squad value and performance consistency, as well as identifying clubs that improved or declined over time.
 
 ## 3.1 Correlation Analysis
@@ -168,35 +168,28 @@ The planned analyses are as follows:
 #| code-summary: "Show the code"
 
 
-# ============================================================
-# 1. Paketler
-# ============================================================
+
 
 library(tidyverse)
 library(ggrepel)
 library(scales)
 
 
-# ============================================================
-# 2. Verileri içe aktar
-# ============================================================
+
 
 kadro <- read_csv("superlig_kadro_verileri_mapped.csv")
 puan  <- read_csv("superlig_puan_durumu_verileri.csv")
 
 
-# ============================================================
-# 3. Verileri birleştir
-# ============================================================
 
 veri <- puan %>%
   inner_join(kadro, by = c("Takim", "Sezon"))
 
 
-# Kontrol: birleşen gözlem sayısı
+# Kontrol -> birleşen gözlem sayısı
 nrow(veri)
 
-# Eşleşmeyen takım-sezon var mı kontrolü
+# Kontrol -> Eşleşmeyen takım-sezon var mı?
 puan_eslesmeyen <- puan %>%
   anti_join(kadro, by = c("Takim", "Sezon"))
 
@@ -207,33 +200,28 @@ puan_eslesmeyen
 kadro_eslesmeyen
 
 
-# ============================================================
-# 4. Ana değişkenleri oluştur
-# ============================================================
 
 veri_analiz <- veri %>%
   group_by(Sezon) %>%
   mutate(
     Sezon_Ortalama_Piyasa_Degeri = mean(Toplam_Piyasa_Degeri_Euro, na.rm = TRUE),
     
-    # Zaman/enflasyon problemini çözmek için sezon-içi göreli değer
+    
     Goreli_Piyasa_Degeri = Toplam_Piyasa_Degeri_Euro / Sezon_Ortalama_Piyasa_Degeri,
     
-    # Piyasa değeri dağılımı çarpık olduğu için log dönüşüm
+    
     Log_Goreli_Piyasa_Degeri = log(Goreli_Piyasa_Degeri)
   ) %>%
   ungroup() %>%
   mutate(
     Oynanan_Mac = Galibiyet + Beraberlik + Maglubiyet,
     
-    # Sezonlardaki takım/maç sayısı farkını azaltmak için
+    
     Mac_Basina_Puan = Puan / Oynanan_Mac
   )
 
 
-# ============================================================
-# 5. En az 5 sezon Süper Lig'de yer alan takımları belirle
-# ============================================================
+
 
 takim_sezon_sayisi <- veri_analiz %>%
   distinct(Takim, Sezon) %>%
@@ -250,12 +238,7 @@ veri_grafik <- veri_analiz %>%
   filter(Takim %in% en_az_5_sezon_takimlar)
 
 
-# ============================================================
-# 6. Genel korelasyon analizi
-# ============================================================
-# Not:
-# Burada tüm takım-sezon gözlemleri kullanılır.
-# Böylece tek sezonluk takımlar da ligin yıllık yapısına katkı verir.
+
 
 genel_korelasyon <- tibble(
   Analiz = "Tum takim-sezon gozlemleri",
@@ -280,10 +263,6 @@ genel_korelasyon <- tibble(
 genel_korelasyon
 
 
-# ============================================================
-# 7. En az 5 sezon filtresiyle genel korelasyon
-# ============================================================
-# Bu çıktı grafiklerde gösterilecek ana takım havuzu için hesaplanır.
 
 genel_korelasyon_5_sezon <- tibble(
   Analiz = "En az 5 sezon oynayan takimlar",
@@ -307,12 +286,6 @@ genel_korelasyon_5_sezon <- tibble(
 
 genel_korelasyon_5_sezon
 
-
-# ============================================================
-# 8. Sezon bazlı korelasyon analizi
-# ============================================================
-# Burada tüm takımlar kullanılır.
-# 5 sezon filtresi uygulanmaz.
 
 sezon_bazli_korelasyon <- veri_analiz %>%
   group_by(Sezon) %>%
@@ -339,11 +312,6 @@ sezon_bazli_korelasyon <- veri_analiz %>%
 sezon_bazli_korelasyon
 
 
-# ============================================================
-# 9. Ana scatter plot
-# ============================================================
-# Grafiklerde sadece en az 5 sezon oynayan takımlar gösterilir.
-
 ggplot(
   veri_grafik,
   aes(
@@ -362,10 +330,6 @@ ggplot(
   theme_minimal(base_size = 13)
 
 
-# ============================================================
-# 10. Takım isimleriyle etiketli grafik
-# ============================================================
-# Çok kalabalık olabileceği için her takımın ortalama pozisyonu gösterilir.
 
 takim_kisaltmalari <- c(
   "Beşiktaş" = "BJK",
@@ -447,9 +411,7 @@ ggplot(
   ) +
   theme_minimal(base_size = 13)
 
-# ============================================================
-# 11. Sezon bazlı korelasyon grafiği
-# ============================================================
+
 
 sezon_bazli_korelasyon_long <- sezon_bazli_korelasyon %>%
   pivot_longer(
@@ -676,9 +638,6 @@ For our context, Pearson correlation answers: "In each season, is there a linear
 #| code-summary: "Show the code"
 
 
-# ============================================================
-# Takım bazlı residual sıralaması - estetik bar grafik
-# ============================================================
 
 library(tidyverse)
 library(scales)
@@ -765,9 +724,7 @@ Overall, the results show that long-term Süper Lig performance cannot be explai
 ```{r}
 #| code-fold: true
 #| code-summary: "Show the code"
-# ============================================================
-# Dağılım analizi için takım bazlı özet veri
-# ============================================================
+
 
 dagilim_takim_ozet <- veri_grafik %>%
   group_by(Takim) %>%
@@ -784,9 +741,7 @@ dagilim_takim_ozet <- dagilim_takim_ozet %>%
     Takim_Kisa = recode(Takim, !!!takim_kisaltmalari)
   )
 
-# ============================================================
-# Grafik 1: Takım bazında ortalama göreli piyasa değeri
-# ============================================================
+
 
 ggplot(
   dagilim_takim_ozet,
@@ -830,9 +785,6 @@ ggplot(
     plot.subtitle = element_text(size = 12)
   )
 
-# ============================================================
-# Grafik 2: Takım bazında ortalama maç başına puan
-# ============================================================
 
 ggplot(
   dagilim_takim_ozet,
@@ -882,10 +834,6 @@ ggplot(
 ```{r}
 #| code-fold: true
 #| code-summary: "Show the code"
-# ============================================================
-# Longitudinal Analysis: 20-Year Club Evolution
-# Squad value and performance evolution of never-relegated clubs
-# ============================================================
 
 library(tidyverse)
 library(ggrepel)
@@ -893,9 +841,6 @@ library(scales)
 library(broom)
 
 
-# ============================================================
-# 1. Tüm sezonlarda yer alan takımları belirle
-# ============================================================
 
 toplam_sezon_sayisi <- veri_analiz %>%
   summarise(Toplam_Sezon = n_distinct(Sezon)) %>%
@@ -908,10 +853,6 @@ hic_dusmeyen_takimlar <- veri_analiz %>%
   arrange(Takim)
 
 hic_dusmeyen_takimlar
-
-# ============================================================
-# 2. Hiç düşmeyen takımlar için longitudinal veri seti
-# ============================================================
 
 veri_longitudinal <- veri_analiz %>%
   filter(Takim %in% hic_dusmeyen_takimlar$Takim) %>%
@@ -930,10 +871,6 @@ veri_longitudinal <- veri_longitudinal %>%
   mutate(
     Takim_Kisa = recode(Takim, !!!takim_kisaltmalari_long)
   )
-
-# ============================================================
-# 4. Squad value evolution
-# ============================================================
 
 ggplot(
   veri_longitudinal,
@@ -969,9 +906,7 @@ ggplot(
     plot.title = element_text(size = 18, face = "bold")
   )
 
-# ============================================================
-# 5. Performance evolution
-# ============================================================
+
 
 ggplot(
   veri_longitudinal,
@@ -1005,10 +940,7 @@ ggplot(
 ```{r}
 #| code-fold: true
 #| code-summary: "Show the code"
-# ============================================================
-# 4 Büyük Takımın Yıllık Verimlilik Değişimi
-# Yıllık residual analizi
-# ============================================================
+
 
 library(tidyverse)
 library(ggrepel)
@@ -1016,9 +948,6 @@ library(scales)
 library(broom)
 
 
-# ============================================================
-# 1. Dört büyük takımı tanımla
-# ============================================================
 
 dort_buyuk <- c(
   "Fenerbahçe",
@@ -1028,12 +957,6 @@ dort_buyuk <- c(
 )
 
 
-# ============================================================
-# 2. Her sezon için regresyon modeli kur ve residual hesapla
-# ============================================================
-# Not:
-# Model her sezon tüm takımlar kullanılarak kuruluyor.
-# Böylece dört büyük takımın performansı, o sezonun genel lig yapısına göre ölçülüyor.
 
 veri_yillik_residual <- veri_analiz %>%
   group_by(Sezon) %>%
@@ -1052,10 +975,6 @@ veri_yillik_residual <- veri_analiz %>%
   }) %>%
   ungroup()
 
-
-# ============================================================
-# 3. Dört büyük takım için veri setini filtrele
-# ============================================================
 
 dort_buyuk_residual <- veri_yillik_residual %>%
   filter(Takim %in% dort_buyuk) %>%
@@ -1084,9 +1003,6 @@ dort_buyuk_residual %>%
     Residual
   )
 
-# ============================================================
-# 4. Dört büyük takımın yıllık residual değişimi
-# ============================================================
 
 ggplot(
   dort_buyuk_residual,
